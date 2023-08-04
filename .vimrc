@@ -1,7 +1,12 @@
-" Hello，我是PowerVim的作者，程序员Carl，欢迎关注我的微信公众号：代码随想录 
-"
 " 定义快捷键的前缀，即<Leader>
 let mapleader=";"
+
+let Tlist_Show_One_File=1 "不同时显示多个文件的tags ,只显示当前文件的"
+
+let Tlist_Exit_OnlyWindow=1 "如果taglist窗口是最后一个窗口，则退出vim"
+
+let Tlist_Ctags_Cmd = "/usr/bin/ctags" "降taglist 与 ctags 关联"
+
 
 " pathogen plugin manager
 execute pathogen#infect()
@@ -50,9 +55,26 @@ set showmatch        " Show matching brackets.
 set guioptions-=T
 set expandtab
 
+let g:coc_disable_startup_warning = 1
+
 let curpwd = getcwd()
 " vim自身命令行模式智能补全
 set wildmenu
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'neoclide/coc.nvim',{'branch':'release'}
+Plug 'jiangmiao/auto-pairs'
+
+call plug#end()
+
+" 自动匹配括号
+au Filetype FILETYPE let b:AutoPairs ={"(":")"}
+
+
+
+
+
 
 " 不产生.swp文件
 set noswapfile
@@ -196,11 +218,13 @@ autocmd FileType cpp,java inoremap { {<CR>}<ESC>kA<CR>
 set fenc=" "
 "显示匹配
 set showmatch
+
 "括号匹配
-inoremap ( ()<ESC>i
-inoremap [ []<ESC>i
-inoremap ' ''<ESC>i
-inoremap " ""<ESC>i
+"inoremap ( ()<ESC>i
+"inoremap [ []<ESC>i
+"inoremap ' ''<ESC>i
+"inoremap " ""<ESC>i
+
 set selectmode=mouse,key
 set selection=exclusive
 set mouse=n "可视模式下使用鼠标，set mouse=a这个命令导致在vim下复制粘贴不好用
@@ -223,6 +247,7 @@ autocmd FileType cpp set commentstring=//\ %s
 autocmd FileType php set commentstring=//\ %s
 " set modeline
 set modeline
+
 " 搜索关键词高亮
 set hlsearch
 " 开启语义分析
@@ -249,8 +274,8 @@ func SetTitle()
     if &filetype == 'sh'
         call setline(1,"\#########################################################################")
         call append(line("."),   "\# File Name:    ".expand("%"))
-        call append(line(".")+1, "\# Author:       程序员Carl")
-        call append(line(".")+2, "\# mail:         programmercarl@163.com")
+        call append(line(".")+1, "\# Author:       zpc")
+        call append(line(".")+2, "\# mail:         zpcwyy@gmail.com")
         call append(line(".")+3, "\# Created Time: ".strftime("%c"))
         call append(line(".")+4, "\#########################################################################")
         call append(line(".")+5, "\#!/bin/bash")
@@ -258,8 +283,8 @@ func SetTitle()
     else
         call setline(1, "/* ************************************************************************")
         call append(line("."),   "> File Name:     ".expand("%"))
-        call append(line(".")+1, "> Author:        程序员Carl")
-        call append(line(".")+2, "> 微信公众号:    代码随想录")
+        call append(line(".")+1, "> Author:        zpc")
+        call append(line(".")+2, "\# mail:         zpcwyy@gmail.com")
         call append(line(".")+3, "> Created Time:  ".strftime("%c"))
         call append(line(".")+4, "> Description:   ")
         call append(line(".")+5, " ************************************************************************/")
@@ -310,7 +335,6 @@ func SetCC()
     call append(line("."), "// vim: et tw=100 ts=4 sw=4 cc=120")  
 endfunc
 
-" Hello，我是PowerVim的作者，程序员Carl，欢迎关注我的微信公众号：代码随想录 
 
 " 使用的背景主题
 colorscheme Monokai_Gavin
